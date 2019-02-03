@@ -3,8 +3,8 @@
 # platform you are running on.  Different precompiled reference
 # libraries are needed for testing on myth and GCP
 
-# REF_LIB :=  ref_bfs_myth.o
-REF_LIB :=  ref_bfs_cloud.o
+REF_LIB :=  ref_bfs_myth.o
+#REF_LIB :=  ref_bfs_cloud.o
 
 
 all: default grade

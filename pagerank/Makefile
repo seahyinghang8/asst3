@@ -3,8 +3,8 @@
 # platform you are running on.  Different precompiled reference
 # libraries are needed for testing on myth and GCP
 
-# REF_LIB := ref_pr_myth.a
-REF_LIB := ref_pr_cloud.a
+REF_LIB := ref_pr_myth.a
+# REF_LIB := ref_pr_cloud.a
 
 
 all: default grade

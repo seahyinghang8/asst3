@@ -6,12 +6,13 @@
 
 ## Overview ##
 
-In this assignment, you will implement two graph processing algorithms: [breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search) (BFS) and a simple implementation of [page rank](https://en.wikipedia.org/wiki/PageRank). A good implementation of this assignment will be able to run algorithms like breadth-first search on graphs containing hundreds of millions of edges in seconds on a single multi-core machine.  
+In this assignment, you will implement two graph processing algorithms: [breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search) (BFS) and a simple implementation of [page rank](https://en.wikipedia.org/wiki/PageRank). A good implementation of this assignment will be able to run these algorithms on graphs containing hundreds of millions of edges on a multi-core machine in only seconds.
 
 ## Environment Setup ##
 
-Early starters of this assignment should get started by running on the 4-core (8 hyperthread) machines in the Myth cluster.  These machines will suffice for basic development and performance testing.  
-To get started:
+Early starters of this assignment should get started by running on the 4-core (8 hyperthread) machines in the Myth cluster.  These machines will suffice for basic development and performance testing.  However final grading will be performed on 16-core (32 vCPU) machines that you will run on the Google cloud platform.  
+
+To get started on myth machines:
 
 Download the Assignment 3 starter code from the course Github page using:
 
@@ -58,7 +59,7 @@ We expect you to be able to read OpenMP documentation on your own (Google will b
 
 #### Background: Representing Graphs ####
 
-The starter code operates on directed graphs, whose implementation you can find in `graph.h` and `graph_internal.h`.  A graph is represented by an array of edges (both `outgoing_edges` and `incoming_edges`), where each edge is represented by an integer describing the id of the destination vertex.  Edges are stored in the graph sorted by their source vertex, so the source vertex is implicit in the representation.  This makes for a compact representation of the graph, and also allows it to be stored contiguously in memory.  For example, to iterate over the outgoing edges for all nodes in the graph, you'd use the following code which makes use of convenient helper functions defined in `graph.h` (and implemented in `graph_internal.h`):
+The starter code operates on directed graphs, whose implementation you can find in `graph.h` and `graph_internal.h`.  We recommend you begin by understanding the graph representation in these files. A graph is represented by an array of edges (both `outgoing_edges` and `incoming_edges`), where each edge is represented by an integer describing the id of the destination vertex.  Edges are stored in the graph sorted by their source vertex, so the source vertex is implicit in the representation.  This makes for a compact representation of the graph, and also allows it to be stored contiguously in memory.  For example, to iterate over the outgoing edges for all nodes in the graph, you'd use the following code which makes use of convenient helper functions defined in `graph.h` (and implemented in `graph_internal.h`):
 
     for (int i=0; i<num_nodes(g); i++) {
       // Vertex is typedef'ed to an int. Vertex* points into g.outgoing_edges[]
@@ -71,28 +72,35 @@ The starter code operates on directed graphs, whose implementation you can find 
 
 ## Part 1: Warm up: Implementing Page Rank (16 points) ##
 
-As a simple warm up exercise to get comfortable using the graph data-structures, and to get acquainted with a few OpenMP basics, we'd like you to begin by implementing a basic version of the well-known [page rank](https://en.wikipedia.org/wiki/PageRank) algorithm.  
+As a simple warm up exercise to get comfortable using the graph data structures, and to get acquainted with a few OpenMP basics, we'd like you to begin by implementing a basic version of the well-known [page rank](https://en.wikipedia.org/wiki/PageRank) algorithm.  
 
 Please take a look at the pseudocode provided to you in the function `pageRank()`, in the file `pagerank/page_rank.cpp.`.  You should implement the function, parallelizing the code with OpenMP.  Just like any other algorithm, first identify independent work and any necessary sychronization.
 
 You can run your code, checking correctness and performance against the staff reference solution using:
 
-    ./pr /afs/cs/academic/class/15418-s17/public/asst3_graphs/com-orkut_117m.graph 
+    ./pr <PATH_TO_GRAPHS_DIRECTORY>/com-orkut_117m.graph 
     
-You'll find a number of graphs in the course directory.  Note that since some of these graphs are quite large (more than a GB in size), so during debugging/testing you might find it useful to locate them on the local disk in `/usr/tmp/`.  Some interesting graphs include:
+If you are working on a myth machine, we've located a copy of the graphs directory at `/afs/ir.stanford.edu/class/cs149/data/asst3_graphs/`.  You can also download the graphs from `http://cs149.stanford.edu/winter19content/asstdata/all_graphs.tgz`. (But be careful, this is a 2.2GB download.) Some interesting real-world graphs include:
 
  * com-orkut_117m.graph 
  * oc-pokec_30m.graph
  * rmat_200m.graph
  * soc-livejournal1_68m.graph
+ 
+Your useful synthetic, but large graphs include:
+
+ * random_500m.graph
+ * rmat_200m.graph
+
+There are also some very small graphs for testing.  If you look in the `/tools` directory of the starter code, you'll notice a useful program called `graphTools.cpp` that can be used to make your own graphs as well.
 
 By default, the `pr` program runs your page rank algorithm with an increasing number of threads (so you can assess speedup trends).  However, since runtimes at low core counts can be long, you can explicitly specify the number of threads to only run your code under a single configuration.
 
     ./pr %GRAPH_FILENAME% 8
 
-Your code should handle cases where there are no outgoing edges by distributing the probability mass on such vertices evenly among all the vertices in the graph. That is, your code should work as if there were edges from such a node to every node in the graph (including itself). Please pull the latest version of the starter code, and see the added comment.
+Your code should handle cases where there are no outgoing edges by distributing the probability mass on such vertices evenly among all the vertices in the graph. That is, your code should work as if there were edges from such a node to every node in the graph (including itself). The comments in the starter code describe how to handle this case.
 
-You can also run the grading script via: `./pr_grader  <path to graphs directory>`.
+You can also run our grading script via: `./pr_grader <path to graphs directory>`, which will report correctness and a performance points score for a number of graphs.
 
 ## Part 2: Parallel Breadth-First Search ("Top Down") ##
 
@@ -101,11 +109,11 @@ Please familiarize yourself with the function `bfs_top_down()` in `bfs/bfs.cpp`,
 
 You can run bfs using:
 
-    ./bfs /afs/cs/academic/class/15418-s17/public/asst3_graphs/rmat_200m.graph
+    ./bfs <ATH_TO_GRAPHS_DIRECTORY>/rmat_200m.graph
     
 (as with page rank, bfs's first argument is a graph file, and an optional second argument is the number of threads.)
 
-When you run `bfs`, you'll see execution time and the frontier size printed for each step in the algorithm.  Correctness will pass for the top-down version (we've given you a correct sequential implementation), but it will be slow.  (Note that `bfs` will report failures for a "bottom up" and "hybrid" versions of the algorithm, which you will implement later in this assignment.)
+When you run `bfs`, you'll see execution time and the frontier size printed for each step in the algorithm.  Correctness will pass for the top-down version (since we've given you a correct sequential implementation), but it will be slow.  (Note that `bfs` will report failures for a "bottom up" and "hybrid" versions of the algorithm, which you will implement later in this assignment.)
 
 In this part of the assignment your job is to parallelize top-down BFS. As with page rank, you'll need to focus on identifying parallelism, as well as inserting the appropriate synchronization to ensure correctness. We wish to remind you that you __should not__ expect to achieve near-perfect speedups on this problem (we'll leave it to you to think about why!). 
 
