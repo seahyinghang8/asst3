@@ -34,7 +34,7 @@ Once you've finally SSH'd into your VM instance, you need to do the following so
       
   2. Git clone the assignment repo 
   
-  3. Download the graph files from: `scp myth.stanford.edu:/afs/ir.stanford.edu/class/cs149/data/asst3_graphs/all_graphs.tgz .`
+  3. Download the graph files from: `myth.stanford.edu:/afs/ir.stanford.edu/class/cs149/data/asst3_graphs/all_graphs.tgz`
   
   4. Build and run the starter code as indicated by the assignment handout. __Note:__ you need to change  REF_LIB in the MakeFile's so that it points to the cloud reference binary. 
   
