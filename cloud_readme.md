@@ -39,4 +39,4 @@ Once you've finally SSH'd into your VM instance, you need to do the following so
   4. Build and run the starter code as indicated by the assignment handout. __Note:__ you need to change  REF_LIB in the MakeFile's so that it points to the cloud reference binary. 
   
   
-__Please Don't Forget to SHUT DOWN your isntances when you're done with your work for the day!__
+__Please Don't Forget to SHUT DOWN your instances when you're done with your work for the day!__
