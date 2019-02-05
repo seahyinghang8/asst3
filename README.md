@@ -87,7 +87,7 @@ If you are working on a myth machine, we've located a copy of the graphs directo
  * rmat_200m.graph
  * soc-livejournal1_68m.graph
  
-Your useful synthetic, but large graphs include:
+Some synthetic, large graphs include:
 
  * random_500m.graph
  * rmat_200m.graph
