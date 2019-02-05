@@ -15,28 +15,37 @@ In order to test your assignment, you will need to run it on a Google Cloud VM I
   6. Click on `enable billing`. This will allow you to use your Google Cloud Patform Credits. 
   
   7. Now you're ready to create a VM instance. Click on the button that says `Create Instance`. Fill out the form such that your cloud-based VM has the following properties: 
-       - Region us-west1 (Oregon)
+       - Region __us-west1__ (Oregon)
        - Type n1-highcpu-32 (__32 vCPUs__, __28.8 GB__ memory) 
        - Ubuntu __18.04 LTS__  
        - At least a __20GB__ Standard persistent disk.
 
   8. Finally, click `Create` 
   
-Now that you've created a VM instance on Google Cloud, you should be able to __SSH__ into to. 2 ways to do so are to either open it from the VM instance page (the one that shows a list of all your VM instances) or use the `gcloud` command (which you can use it on your local console or on the Google Cloud shell). 
+Now that you've created a VM instance on Google Cloud, you should be able to __SSH__ into to. 2 ways to do so are to either open it from the VM instance page (the one that shows a list of all your VM instances) or use the `gcloud` command (which you can use it on your local console or on the Google Cloud shell). The `gcloud` command would look like this: 
+
+      gcloud compute instance MY_INSTANCE_NAME
+
+You can find `MY_INSTANCE_NAME` in your *VM instances* page.
 
 Once you've finally SSH'd into your VM instance, you need to do the following so that it's ready to run your programming assignment: 
 
-  1. Install the following programs using the `sudo apt-get installl` command:
+  1. Install the following programs using the `sudo apt-get install` command:
       - g++ 
       - git 
       - make
       - your desired editor (emacs/vim)
       
+  To be more specific, you should use these commands in order:  
+     
+        sudo apt-get update
+        sudo apt-get install g++ git make emacs
+        
   2. Git clone the assignment repo 
   
   3. Download the graph files from the class directory using the following command: 
   
-      `scp YOURSUNETID@myth.stanford.edu:/afs/ir.stanford.edu/class/cs149/data/asst3_graphs/all_graphs.tgz .`
+    scp YOURSUNETID@myth.stanford.edu:/afs/ir.stanford.edu/class/cs149/data/asst3_graphs/all_graphs.tgz .
   
   4. Build and run the starter code as indicated by the assignment handout. __Note:__ you need to change  REF_LIB in the MakeFile's so that it points to the cloud reference binary. 
   
