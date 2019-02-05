@@ -50,7 +50,7 @@ Once you finally SSH into your VM instance, follow the instructions below to fin
   4. Build and run the starter code as indicated by the assignment handout. __Note:__ you need to change  REF_LIB in the MakeFile's so that it points to the cloud reference binary. 
   
 
-For those working in teams, it might be desirable for both students to use the same virtual machine. To do so, only one of you should first create the VM instance following the instructions above. Then, follow the instructions at https://cloud.google.com/iam/docs/granting-changing-revoking-access to grant access to your partner. 
+For those working in teams, it might be desirable for both students to use the same virtual machine. To do so, only one of you should first create the VM instance following the instructions above. Then, follow the instructions at https://cloud.google.com/compute/docs/access/granting-access-to-resources to grant access to your partner. 
 
 If you're confused about any of the steps, having problems with setting up your account or have any additional questions, reach us out on Piazza!
   
