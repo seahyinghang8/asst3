@@ -10,7 +10,7 @@ In this assignment, you will implement two graph processing algorithms: [breadth
 
 ## Environment Setup ##
 
-Early starters of this assignment should get started by running on the 4-core (8 hyperthread) machines in the Myth cluster.  These machines will suffice for basic development and performance testing.  However final grading will be performed on 16-core (32 vCPU) machines that you will run on the Google cloud platform.  
+Early starters of this assignment should get started by running on the 4-core (8 hyperthread) machines in the Myth cluster.  These machines will suffice for basic development and performance testing.  However final grading will be performed on 16-core (32 vCPU) machines that you will run on the [Google cloud Platform](https://cloud.google.com/) (GCP).  __We advise that you get acquired with the assignment first on the myth machines for convenience, and then move to GCP want you wish to begin performance tuning your code. They instructions below describe getting started on the myth machines.  Please see `cloud_readme.md` for complete instructions on how to get set up on GCP.__
 
 To get started on myth machines:
 
