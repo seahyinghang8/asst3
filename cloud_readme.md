@@ -17,7 +17,7 @@ In order to test your assignment, you will need to run it on a Google Cloud VM I
   7. Now you're ready to create a VM instance. Click on the button that says `Create Instance`. Fill out the form such that your cloud-based VM has the following properties: 
     - Region us-west1 (Oregon)
     - Type n1-highcpu-32 (32 vCPUs, 28.8 GB memory) 
-    - Ubuntu 14.04 LTS 
+    - Ubuntu 18.04 LTS 
     - At least a 20GB Standard persistent disk.
 
   8. Finally, click `Create` 
@@ -39,3 +39,4 @@ Once you've finally SSH'd into your VM instance, you need to do the following so
   4. Build and run the starter code as indicated by the assignment handout. __Note:__ you need to change  REF_LIB in the MakeFile's so that it points to the cloud reference binary. 
   
   
+__Please Don't Forget to SHUT DOWN your isntances when you're done with your work for the day!__
