@@ -26,7 +26,7 @@ Now that you've created a VM instance on Google Cloud, you should be able to __S
 
       gcloud compute instance MY_INSTANCE_NAME
 
-You can find `MY_INSTANCE_NAME` in your *VM instances* page.
+You can find `MY_INSTANCE_NAME` in the *VM instances* page.
 
 Once you've finally SSH'd into your VM instance, you need to do the following so that it's ready to run your programming assignment: 
 
@@ -49,5 +49,9 @@ Once you've finally SSH'd into your VM instance, you need to do the following so
   
   4. Build and run the starter code as indicated by the assignment handout. __Note:__ you need to change  REF_LIB in the MakeFile's so that it points to the cloud reference binary. 
   
+
+For those working in teams, it's possible for both students to use the same virtual machine. First, only one of you should create the VM instance following the instructions above. Then, follow the instructions here https://cloud.google.com/iam/docs/granting-changing-revoking-access to grant access to your partner. 
+
+If you're confused about any of the steps, having problems with setting up your account or have any additional questions, reach us out on Piazza!
   
 __Please Don't Forget to SHUT DOWN your instances when you're done with your work for the day!__
