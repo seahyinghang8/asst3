@@ -1,6 +1,6 @@
 # Assignment 3: Processing Big Graphs #
 
-**Due: Sun Feb 17th, 5:00PM PST**
+**Due: Sun Feb 17th, 11:59PM PST**
 
 **100 points total**
 
@@ -10,7 +10,7 @@ In this assignment, you will implement two graph processing algorithms: [breadth
 
 ## Environment Setup ##
 
-Early starters of this assignment should get started by running on the 4-core (8 hyperthread) machines in the Myth cluster.  These machines will suffice for basic development and performance testing.  However final grading will be performed on 16-core (32 vCPU) machines that you will run on the [Google cloud Platform](https://cloud.google.com/) (GCP).  __We advise that you get acquired with the assignment first on the myth machines for convenience, and then move to GCP want you wish to begin performance tuning your code. They instructions below describe getting started on the myth machines.  Please see `cloud_readme.md` for complete instructions on how to get set up on GCP.__
+Early starters of this assignment should get started by running on the 4-core (8 hyperthread) machines in the Myth cluster.  These machines will suffice for basic development and performance testing.  However final grading will be performed on 16-core (32 vCPU) machines that you will run on the [Google cloud Platform](https://cloud.google.com/) (GCP).  __We advise that you get acqainted with the assignment first on the myth machines, and then move to GCP want you wish to begin performance tuning your code. The instructions below describe getting started on the myth machines.  Please see `cloud_readme.md` for complete instructions on how to get set up on GCP.__
 
 To get started on myth machines:
 
@@ -126,14 +126,14 @@ __Tips/Hints:__
 
 ### Part 3: "Bottom Up" BFS ###
 
-Think about what behavior might cause a performance problem in the BFS implementation from Part 1.2.  An alternative implementation of a breadth-first search step may be more efficient in these situations.  Instead of iterating over all vertices in the frontier and marking all vertices adjacent to the frontier, it is possible to implement BFS by having *each vertex check whether it should be added to the frontier!*  Basic pseudocode for the algorithm is as follows:
+Think about what behavior might cause a performance problem in the BFS implementation from Part 2.  An alternative implementation of a breadth-first search step may be more efficient in these situations.  Instead of iterating over all vertices in the frontier and marking all vertices adjacent to the frontier, it is possible to implement BFS by having *each vertex check whether it should be added to the frontier!*  Basic pseudocode for the algorithm is as follows:
 
     for each vertex v in graph:
         if v has not been visited AND 
            v shares an incoming edge with a vertex u on the frontier:
               add vertex v to frontier;
 
-This algorithm is sometimes referred to as a "bottom up" implementation of BFS, since each vertex looks "up the BFS tree" to find its ancestor. (As opposed to being found by its ancestor in a "top down" fashion, as was done in Part 1.2.)
+This algorithm is sometimes referred to as a "bottom up" implementation of BFS, since each vertex looks "up the BFS tree" to find its ancestor. (As opposed to being found by its ancestor in a "top down" fashion, as was done in Part 2.)
 
 Please implement a bottom-up BFS to compute the shortest path to all the vertices in the graph from the root. (see `bfs_bottom_up()` in `bfs/bfs.cpp`)  Start by implementing a simple sequential version.  Then parallelize your implementation.
 
@@ -148,7 +148,7 @@ Notice that in some steps of the BFS, the "bottom up" BFS is signficantly faster
 
 __Tips/Hints:__
 
-* If you used different representations of the frontier in Parts 1.2 and 1.3, you may have to convert between these representations in the hybrid solution.  How might you efficiently convert between them? Is there an overhead in doing so?
+* If you used different representations of the frontier in Parts 2 and 3, you may have to convert between these representations in the hybrid solution.  How might you efficiently convert between them? Is there an overhead in doing so?
 
 ## Grading and Handin ##
 
@@ -157,19 +157,19 @@ Along with your code, we would like you to hand in a clear, high-level descripti
 Aspects of your work that you should mention in the write-up include:
 
 1. Include both partners names and andrew id's at the top of your write-up.
-2. Replicate the part 1 BFS/pagerank, and part 2 pagerank score table generated for your solution.
-3. For part 1-bfs, describe the process of optimizing your code:
+2. Replicate our BFS and pagerank score tables generated for your solution.
+3. For bfs, describe the process of optimizing your code:
  * Where is the synchronization in each your solutions? Do you do anything to limit the overhead of synchronization?
  * Did you decide to dynamically switch between the top-down and bottom-up BFS implementations? How did you decide which implementation to use?
- * Why do you think your code (and the staff reference) is unable to achieve perfect speedup? (Is it workload imabalance? communication/synchronization? data movement?)
+ * Why do you think your code (and also the staff reference) is unable to achieve perfect speedup? (Is it workload imabalance? communication/synchronization? data movement?)
 
 ## Points Distribution ##
 
 The 100 points on this assignment are alloted as follows:
 
 * 16 points:  pagerank performance
-* 70 points:  BFS performance
-* 14 points:  writeup
+* 75 points:  BFS performance
+* 9 points:   writeup
 
 ## Hand-in Instructions ##
 
