@@ -4,6 +4,8 @@ In order to test your assignment for performance points, you will need to run it
 
 NOTE: For those working in teams, it might be desirable for both students to use the same virtual machine. To do so, only one of you should first create the VM instance following the instructions below. Then, follow the instructions at https://cloud.google.com/compute/docs/access/granting-access-to-resources to grant access to your partner.
 
+NOTE #2: __Please Don't Forget to SHUT DOWN your instances when you're done with your work for the day!  The VM Instances you create cost approximately $1.13 per hour.  Leaving it on accidentally for a day could quickly eat up your $50 per student quota for the assignment.__
+ 
   1. Go to https://google.secure.force.com/GCPEDU?cid=GOWuE1bzxv%2BQeeqn4jG9xArix82DMPXlZ%2FuplPh3CAY6Uye5YnluvOqYiCjFizqY, and fill out the form with your personal info.
   
   2. Once you receive a coupon code, log into your Gmail account, go to https://console.cloud.google.com/education, and put in the code. Click accept. __Note:__ If you're using your Stanford account, you will probably get the message `"You don’t have permission to create a billing account for your organization."` In that case, you should use a personal Gmail account instead (e.g. `myemail@gmail.com`).
