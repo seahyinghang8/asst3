@@ -4,7 +4,7 @@ In order to test your assignment, you will need to run it on a Google Cloud VM I
 
   1. Go to https://google.secure.force.com/GCPEDU?cid=GOWuE1bzxv%2BQeeqn4jG9xArix82DMPXlZ%2FuplPh3CAY6Uye5YnluvOqYiCjFizqY, and fill out the form with your personal info.
   
-  2. Once you receive a coupon code, log into your Gmail account, go to https://console.cloud.google.com/education, and put in the code. Click accept. __Note:__ If you're using your Stanford account, you will probably get the message `"You don’t have permission to create a billing account for your organization."` In that case, you should use a personall Gmail account (e.g. `myemail@gmail.com`).
+  2. Once you receive a coupon code, log into your Gmail account, go to https://console.cloud.google.com/education, and put in the code. Click accept. __Note:__ If you're using your Stanford account, you will probably get the message `"You don’t have permission to create a billing account for your organization."` In that case, you should use a personal Gmail account instead (e.g. `myemail@gmail.com`).
   
   3. Now, go back to the dashboard by clicking the `Google Cloud Platform` tab. Create a new project by first clicking on the upper tab `Select a new project` and then clicking `new project` on the newly opened window. Make sure to select your newly-created project now.
   
