@@ -1,6 +1,6 @@
 # Assignment 3: Processing Big Graphs #
 
-**Due: Sun Feb 17th, 5:00PM PST**
+**Due: Sun Feb 17th, 11:59PM PST**
 
 **100 points total**
 
