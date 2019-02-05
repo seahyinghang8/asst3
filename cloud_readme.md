@@ -4,7 +4,7 @@ In order to test your assignment for performance points, you will need to run it
 
 NOTE: For those working in teams, it might be desirable for both students to use the same virtual machine. To do so, only one of you should first create the VM instance following the instructions below. Then, follow the instructions at https://cloud.google.com/compute/docs/access/granting-access-to-resources to grant access to your partner.
 
-NOTE #2: __Please Don't Forget to SHUT DOWN your instances when you're done with your work for the day!  The VM Instances you create cost approximately $1.13 per hour.  Leaving it on accidentally for a day could quickly eat up your $50 per student quota for the assignment.__
+NOTE #2: __Please don't forget to SHUT DOWN your instances when you're done with your work for the day!  The VM Instances you create cost approximately $1.13 per hour.  Leaving it on accidentally for a day could quickly eat up your $50 per student quota for the assignment.__
  
   1. Go to https://google.secure.force.com/GCPEDU?cid=GOWuE1bzxv%2BQeeqn4jG9xArix82DMPXlZ%2FuplPh3CAY6Uye5YnluvOqYiCjFizqY, and fill out the form with your personal info.
   
@@ -53,8 +53,8 @@ Once you finally SSH into your VM instance, follow the instructions below to fin
   
     scp YOURSUNETID@myth.stanford.edu:/afs/ir.stanford.edu/class/cs149/data/asst3_graphs/all_graphs.tgz .
   
-  4. Build and run the starter code as indicated by the assignment handout. __Note: When running on GCP, you will need to change the variable `REF_LIB` in the `pagerakn` and `bfs` MakeFile's so that it points to the reference solution binary that was precompiled for GCP (and not myth).__ 
+  4. Build and run the starter code as indicated by the assignment handout. __Note: When running on GCP, you will need to change the variable `REF_LIB` in the `pagerank` and `bfs` Makefile's so that it points to the reference solution binary that was precompiled for GCP (and not myth).__ 
   
 If you're confused about any of the steps, having problems with setting up your account or have any additional questions, reach us out on Piazza!
   
-__Please Don't Forget to SHUT DOWN your instances when you're done with your work for the day!__
+__Again, please don't forget to SHUT DOWN your instances when you're done with your work for the day!__
