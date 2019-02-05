@@ -28,7 +28,7 @@ Now that you've created a VM instance on Google Cloud, you should be able to __S
 
 You can find `MY_INSTANCE_NAME` in the *VM instances* page.
 
-Once you've finally SSH'd into your VM instance, you need to do the following so that it's ready to run your programming assignment: 
+Once you finally SSH into your VM instance, follow the instructions below to finish setting up your cloud environment:
 
   1. Install the following programs using the `sudo apt-get install` command:
       - g++ 
@@ -50,7 +50,7 @@ Once you've finally SSH'd into your VM instance, you need to do the following so
   4. Build and run the starter code as indicated by the assignment handout. __Note:__ you need to change  REF_LIB in the MakeFile's so that it points to the cloud reference binary. 
   
 
-For those working in teams, it's possible for both students to use the same virtual machine. First, only one of you should create the VM instance following the instructions above. Then, follow the instructions here https://cloud.google.com/iam/docs/granting-changing-revoking-access to grant access to your partner. 
+For those working in teams, it might be desirable for both students to use the same virtual machine. To do so, only one of you should first create the VM instance following the instructions above. Then, follow the instructions at https://cloud.google.com/iam/docs/granting-changing-revoking-access to grant access to your partner. 
 
 If you're confused about any of the steps, having problems with setting up your account or have any additional questions, reach us out on Piazza!
   
