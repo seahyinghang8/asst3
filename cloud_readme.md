@@ -22,7 +22,7 @@ In order to test your assignment, you will need to run it on a Google Cloud VM I
 
   8. Finally, click `Create` 
   
-Now that you've created a VM instance on Google Cloud, you should be able to __SSH__ into to. The simplest way to do so is to use the `gcloud` command. You can use it on your local console or on the Google Cloud shell. 
+Now that you've created a VM instance on Google Cloud, you should be able to __SSH__ into to. 2 ways to do so are to either use the `gcloud` command (which you can use it on your local console or on the Google Cloud shell) or to open it from the VM instance page (the one that shows a list of all your VM instances). 
 
 Once you've finally SSH'd into your VM instance, you need to do the following so that it's ready to run your programming assignment: 
 
