@@ -126,14 +126,14 @@ __Tips/Hints:__
 
 ### Part 3: "Bottom Up" BFS ###
 
-Think about what behavior might cause a performance problem in the BFS implementation from Part 1.2.  An alternative implementation of a breadth-first search step may be more efficient in these situations.  Instead of iterating over all vertices in the frontier and marking all vertices adjacent to the frontier, it is possible to implement BFS by having *each vertex check whether it should be added to the frontier!*  Basic pseudocode for the algorithm is as follows:
+Think about what behavior might cause a performance problem in the BFS implementation from Part 2.  An alternative implementation of a breadth-first search step may be more efficient in these situations.  Instead of iterating over all vertices in the frontier and marking all vertices adjacent to the frontier, it is possible to implement BFS by having *each vertex check whether it should be added to the frontier!*  Basic pseudocode for the algorithm is as follows:
 
     for each vertex v in graph:
         if v has not been visited AND 
            v shares an incoming edge with a vertex u on the frontier:
               add vertex v to frontier;
 
-This algorithm is sometimes referred to as a "bottom up" implementation of BFS, since each vertex looks "up the BFS tree" to find its ancestor. (As opposed to being found by its ancestor in a "top down" fashion, as was done in Part 1.2.)
+This algorithm is sometimes referred to as a "bottom up" implementation of BFS, since each vertex looks "up the BFS tree" to find its ancestor. (As opposed to being found by its ancestor in a "top down" fashion, as was done in Part 2.)
 
 Please implement a bottom-up BFS to compute the shortest path to all the vertices in the graph from the root. (see `bfs_bottom_up()` in `bfs/bfs.cpp`)  Start by implementing a simple sequential version.  Then parallelize your implementation.
 
@@ -148,7 +148,7 @@ Notice that in some steps of the BFS, the "bottom up" BFS is signficantly faster
 
 __Tips/Hints:__
 
-* If you used different representations of the frontier in Parts 1.2 and 1.3, you may have to convert between these representations in the hybrid solution.  How might you efficiently convert between them? Is there an overhead in doing so?
+* If you used different representations of the frontier in Parts 2 and 3, you may have to convert between these representations in the hybrid solution.  How might you efficiently convert between them? Is there an overhead in doing so?
 
 ## Grading and Handin ##
 
