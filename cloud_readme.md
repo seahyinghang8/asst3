@@ -8,7 +8,7 @@ In order to test your assignment, you will need to run it on a Google Cloud VM I
   
   3. Now, go back to the dashboard by clicking the `Google Cloud Platform` tab. Create a new project by first clicking on the upper tab `Select a new project` and then clicking `new project` on the newly opened window. Make sure to select your newly-created project now.
   
-  4. Click on the Navigation Menu button (located on the upper-left side of the page) and you will get a list of openings. 
+  4. Click on the Navigation Menu button (located on the upper-left side of the page) and you will get a list of services. 
   
   5. Click on `Compute Engine`, and then click on `VM Instances`. 
   
