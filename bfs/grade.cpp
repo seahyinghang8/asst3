@@ -221,8 +221,8 @@ void print_scores(std::vector<std::string> grade_graphs, std::vector<std::vector
         total_score += (scores[g][top_down] + scores[g][bott_up] + scores[g][hybrid]);
 
         bool small = false;
-        if ((graph_name == "grid1000x1000.graph") || (graph_name == "soc-livejournal1_68m.graph") ||
-                (graph_name == "com-orkut_117m.graph")) small = true;
+        if ((graph_name == "grid1000x1000.graph") || (graph_name == "soc-livejournal1_68m.graph"))
+	    small = true;
 
         std::string max_score = (small) ? "3" : "8";
 
