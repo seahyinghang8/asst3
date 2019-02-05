@@ -1,4 +1,4 @@
-# Cloud Setup Instructions #
+# Google Cloud Platform Setup Instructions #
 
 In order to test your assignment for performance points, you will need to run it on a VM instance on the Google Cloud Platform (GCP). We've already sent you student coupons that you can use for billing purposes. All that is left is for you to create your own VM in the cloud. Here are the steps for how to get setup for running on GCP.
 
