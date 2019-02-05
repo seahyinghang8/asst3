@@ -168,8 +168,8 @@ Aspects of your work that you should mention in the write-up include:
 The 100 points on this assignment are alloted as follows:
 
 * 16 points:  pagerank performance
-* 70 points:  BFS performance
-* 14 points:  writeup
+* 75 points:  BFS performance
+* 9 points:   writeup
 
 ## Hand-in Instructions ##
 
