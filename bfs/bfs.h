@@ -3,6 +3,7 @@
 
 //#define DEBUG
 
+#include <set>
 #include "common/graph.h"
 
 struct solution
@@ -17,6 +18,12 @@ struct vertex_set {
   int max_vertices;
   // array of vertex ids in set
   int *vertices;
+};
+
+struct vertex_set_complex {
+    int count;
+    int max_vertices;
+    std::set<int> vertices;
 };
 
 
