@@ -75,7 +75,7 @@ void top_down_step_parallel(
     int* distances)
 {
 
-    #pragma omp parallel for schedule(auto)
+    #pragma omp parallel for schedule(dynamic, 32)
     for (int i=0; i<frontier->count; i++) {
 
         int node = frontier->vertices[i];
@@ -85,25 +85,29 @@ void top_down_step_parallel(
                            ? g->num_edges
                            : g->outgoing_starts[node + 1];
 
-        int n_neighbours = end_edge - start_edge;
-        int temp[n_neighbours];
-        int curr = 0;
+        // create an array for all the neighbours that might
+        // potentially be added to the new frontier
+        int num_neighbours = end_edge - start_edge;
+        int to_be_added[num_neighbours];
+        int counter = 0;
 
         // attempt to add all neighbors to the new frontier
         for (int neighbor=start_edge; neighbor<end_edge; neighbor++) {
             int outgoing = g->outgoing_edges[neighbor];
             
-            if (__sync_bool_compare_and_swap(&distances[outgoing], NOT_VISITED_MARKER, distances[node] + 1)) {
-                temp[curr] = outgoing;
-                curr++;
-                // int index = __sync_fetch_and_add(&new_frontier->count, 1);
-                // new_frontier->vertices[index] = outgoing;
+            if (distances[outgoing] == NOT_VISITED_MARKER) {
+                if (__sync_bool_compare_and_swap(&distances[outgoing], NOT_VISITED_MARKER, distances[node] + 1)) {
+                    to_be_added[counter] = outgoing;
+                    counter++;
+                }
             }
         }
-        int index = __sync_fetch_and_add(&new_frontier->count, curr);
-        // memcpy(&new_frontier->vertices[index], temp, curr*sizeof(int));
-        for (int j=0; j<curr; j++) {
-            new_frontier->vertices[index+j] = temp[j];
+        // add all of the newly found neighbour to the new frontier in one shot
+        if (counter > 0) {
+            int index = __sync_fetch_and_add(&new_frontier->count, counter);
+            for (int j=0; j<counter; j++) {
+                new_frontier->vertices[index+j] = to_be_added[j];
+            }
         }
     }
 }
@@ -138,12 +142,11 @@ void bfs_top_down(Graph graph, solution* sol) {
 
         vertex_set_clear(new_frontier);
 
-        if (frontier->count > 256*omp_get_num_threads()){
+        if (frontier->count >= 32 * 4){
             top_down_step_parallel(graph, frontier, new_frontier, sol->distances);
         } else {
             top_down_step(graph, frontier, new_frontier, sol->distances);
         }
-        top_down_step(graph, frontier, new_frontier, sol->distances);
 
 #ifdef VERBOSE
     double end_time = CycleTimer::currentSeconds();
@@ -195,7 +198,7 @@ void bottom_up_step_parallel(
     vertex_set* new_frontier,
     int* distances)
 {
-    //int size = g->num_nodes / omp_get_num_threads();
+    int size = g->num_nodes / omp_get_num_threads();
     int size = 1;
     #pragma omp parallel for schedule(auto)
     for (int j=0; j<g->num_nodes; j+=size) {
