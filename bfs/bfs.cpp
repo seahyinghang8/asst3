@@ -192,13 +192,42 @@ void bottom_up_step(
 // Take one step of "bottom-up" BFS.  For each vertex on the frontier,
 // follow all outgoing edges, and add all neighboring vertices to the
 // new_frontier.
+void bottom_up_step(
+    Graph g,
+    vertex_set* frontier,
+    vertex_set* new_frontier,
+    int* distances)
+{
+    for (int i=0; i<g->num_nodes; i++) {
+        if (distances[i] == NOT_VISITED_MARKER) {
+            int start_edge = g->incoming_starts[i];
+            int end_edge = (i == g->num_nodes - 1)
+                            ? g->num_edges
+                            : g->incoming_starts[i + 1];
+            for (int neighbor=start_edge; neighbor<end_edge; neighbor++) {
+                int node = g->incoming_edges[neighbor];
+                if (frontier->vertices[node]){
+                    int index = new_frontier->count++;
+                    new_frontier->vertices[i] = 1;
+                    distances[i] = distances[node] + 1;
+                    break;
+                }
+            }
+        }
+
+    }
+}
+
+// Take one step of "bottom-up" BFS.  For each vertex on the frontier,
+// follow all outgoing edges, and add all neighboring vertices to the
+// new_frontier.
 void bottom_up_step_parallel(
     Graph g,
     vertex_set_complex* frontier,
     vertex_set* new_frontier,
     int* distances)
 {
-    int size = g->num_nodes / omp_get_num_threads();
+    //int size = g->num_nodes / omp_get_num_threads();
     int size = 1;
     #pragma omp parallel for schedule(auto)
     for (int j=0; j<g->num_nodes; j+=size) {
@@ -234,6 +263,49 @@ void bottom_up_step_parallel(
     }
 }
 
+// Take one step of "bottom-up" BFS.  For each vertex on the frontier,
+// follow all outgoing edges, and add all neighboring vertices to the
+// new_frontier.
+void bottom_up_step_parallel(
+    Graph g,
+    vertex_set* frontier,
+    vertex_set* new_frontier,
+    int* distances)
+{
+    int size = g->num_nodes / omp_get_num_threads();
+    #pragma omp parallel for schedule(auto)
+    for (int j=0; j<g->num_nodes; j+=size) {
+        int counter = 0;
+        int temp[size];
+        int d[size];
+        for (int i=j; i <g->num_nodes && i<j+size; i++) {
+            if (distances[i] == NOT_VISITED_MARKER) {
+                int start_edge = g->incoming_starts[i];
+                int end_edge = (i == g->num_nodes - 1)
+                    ? g->num_edges
+                    : g->incoming_starts[i + 1];
+                for (int neighbor=start_edge; neighbor<end_edge; neighbor++) {
+                    int node = g->incoming_edges[neighbor];
+                    if (frontier->vertices[node]){
+                        /*temp[counter] = i;
+                        d[counter] = distances[node] + 1;
+                        counter ++; */
+                        int index = __sync_fetch_and_add(&new_frontier->count, 1);
+                        new_frontier->vertices[i] = 1;
+                        distances[i] = distances[node] + 1;
+                        break;
+                    }
+                }
+            }
+        }
+        /*int index = __sync_fetch_and_add(&new_frontier->count, counter);
+        for (int i=0; i<counter; i++){
+            new_frontier->vertices[index+i] = temp[i];
+            distances[temp[i]] = d[i];
+        }*/
+
+    }
+}
 /*
 // Take one step of "bottom-up" BFS.  For each vertex on the frontier,
 // follow all outgoing edges, and add all neighboring vertices to the
@@ -267,6 +339,71 @@ void bottom_up_step_parallel_vec(
 */
 
 void bfs_bottom_up(Graph graph, solution* sol)
+{
+    // CS149 students:
+    //
+    // You will need to implement the "bottom up" BFS here as
+    // described in the handout.
+    //
+    // As a result of your code's execution, sol.distances should be
+    // correctly populated for all nodes in the graph.
+    //
+    // As was done in the top-down case, you may wish to organize your
+    // code by creating subroutine bottom_up_step() that is called in
+    // each step of the BFS process.
+
+    vertex_set list1;
+    vertex_set list2;
+    vertex_set_init(&list1, graph->num_nodes);
+    vertex_set_init(&list2, graph->num_nodes);
+
+    vertex_set* frontier= &list1;
+    vertex_set* new_frontier= &list2;
+
+    // initialize all nodes to NOT_VISITED
+    for (int i=0; i<graph->num_nodes; i++) {
+        sol->distances[i] = NOT_VISITED_MARKER;
+    }
+
+    // setup frontier with the root node
+    frontier->count++;
+    memset(frontier->vertices, 0, graph->num_nodes*sizeof(int));
+    frontier->vertices[ROOT_NODE_ID] = 1;
+    sol->distances[ROOT_NODE_ID] = 0;
+
+
+
+    while (frontier->count != 0) {
+
+#ifdef VERBOSE
+        double start_time = CycleTimer::currentSeconds();
+#endif
+
+        vertex_set_clear(new_frontier);
+        memset(new_frontier->vertices, 0, graph->num_nodes*sizeof(int));
+
+        bottom_up_step_parallel(graph, frontier, new_frontier, sol->distances);
+
+        // int count = 0;
+        // for (int i=0; i<graph->num_nodes; i++)
+        //     if (sol->distances[i] != NOT_VISITED_MARKER) {
+        //         count += 1;
+        //     }
+        // std::cout<< count << std::endl;
+
+#ifdef VERBOSE
+    double end_time = CycleTimer::currentSeconds();
+    printf("frontier=%-10d %.4f sec\n", frontier->count, end_time - start_time);
+#endif
+
+        // swap pointers
+        vertex_set* tmp = frontier;
+        frontier= new_frontier;
+        new_frontier= tmp;
+    }
+}
+
+void bfs_bottom_up_complex(Graph graph, solution* sol)
 {
     // CS149 students:
     //
@@ -340,6 +477,85 @@ void bfs_bottom_up(Graph graph, solution* sol)
 }
 
 void bfs_hybrid(Graph graph, solution* sol)
+{
+    // CS149 students:
+    //
+    // You will need to implement the "hybrid" BFS here as
+    // described in the handout.
+    
+    vertex_set list1;
+    vertex_set list2;
+    vertex_set_init(&list1, graph->num_nodes);
+    vertex_set_init(&list2, graph->num_nodes);
+
+    vertex_set* frontier = &list1;
+    vertex_set* new_frontier = &list2;
+    
+    // initialize all nodes to NOT_VISITED
+    for (int i=0; i<graph->num_nodes; i++)
+        sol->distances[i] = NOT_VISITED_MARKER;
+
+    // setup frontier with the root node
+    frontier->vertices[frontier->count++] = ROOT_NODE_ID;
+    sol->distances[ROOT_NODE_ID] = 0;
+
+    int* tmp_vertices = (int*)malloc(sizeof(int) * graph->num_nodes);
+
+    bool bottom_up = false;
+
+    while (frontier->count != 0) {
+
+#ifdef VERBOSE
+        double start_time = CycleTimer::currentSeconds();
+#endif
+
+        vertex_set_clear(new_frontier);
+        if (bottom_up) {
+            memset(new_frontier->vertices, 0, graph->num_nodes*sizeof(int));
+            bottom_up_step_parallel(graph, frontier, new_frontier, sol->distances);
+            if (new_frontier->count > graph->num_nodes/2) {
+            } else {
+                bottom_up = false;
+                int j = 0;
+                for (int i = 0; i < graph->num_nodes; i++) {
+                    if (new_frontier->vertices[i] == 1){
+                        tmp_vertices[j] = i;
+                        j++;
+                    }
+                }
+                for (int i = 0; i < new_frontier->count; i++) {
+                    new_frontier->vertices[i] = tmp_vertices[i];
+                }
+            }
+        }
+        else {
+            top_down_step_parallel(graph, frontier, new_frontier, sol->distances);
+            if (new_frontier->count > graph->num_nodes/2) {
+                bottom_up = true;
+                for (int i = 0; i < new_frontier->count; i++) {
+                    tmp_vertices[i] = new_frontier->vertices[i];
+                }
+                memset(new_frontier->vertices, 0, graph->num_nodes*sizeof(int));
+                for (int i = 0; i < new_frontier->count; i++) {
+                    new_frontier->vertices[tmp_vertices[i]] = 1;
+                }
+            } else {
+            }
+        }
+
+#ifdef VERBOSE
+        double end_time = CycleTimer::currentSeconds();
+        printf("frontier=%-10d %.4f sec\n", frontier->count, end_time - start_time);
+#endif
+
+        // swap pointers
+        vertex_set* tmp = frontier;
+        frontier = new_frontier;
+        new_frontier = tmp;
+    }
+}
+
+void bfs_hybrid_complex(Graph graph, solution* sol)
 {
     // CS149 students:
     //
