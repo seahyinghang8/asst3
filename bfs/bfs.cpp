@@ -272,7 +272,7 @@ void bottom_up_step_parallel(
     vertex_set* new_frontier,
     int* distances)
 {
-    int size = g->num_nodes / omp_get_num_threads();
+    int size = g->num_nodes / 32 / 2; 
     #pragma omp parallel for schedule(auto)
     for (int j=0; j<g->num_nodes; j+=size) {
         int counter = 0;
@@ -287,22 +287,22 @@ void bottom_up_step_parallel(
                 for (int neighbor=start_edge; neighbor<end_edge; neighbor++) {
                     int node = g->incoming_edges[neighbor];
                     if (frontier->vertices[node]){
-                        /*temp[counter] = i;
+                        temp[counter] = i;
                         d[counter] = distances[node] + 1;
-                        counter ++; */
-                        int index = __sync_fetch_and_add(&new_frontier->count, 1);
+                        counter ++;
+                        /*int index = __sync_fetch_and_add(&new_frontier->count, 1);
                         new_frontier->vertices[i] = 1;
-                        distances[i] = distances[node] + 1;
+                        distances[i] = distances[node] + 1;*/
                         break;
                     }
                 }
             }
         }
-        /*int index = __sync_fetch_and_add(&new_frontier->count, counter);
+        int index = __sync_fetch_and_add(&new_frontier->count, counter);
         for (int i=0; i<counter; i++){
-            new_frontier->vertices[index+i] = temp[i];
+            new_frontier->vertices[temp[i]] = 1;
             distances[temp[i]] = d[i];
-        }*/
+        }
 
     }
 }
