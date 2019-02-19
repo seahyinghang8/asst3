@@ -12,7 +12,7 @@
 
 #define ROOT_NODE_ID 0
 #define NOT_VISITED_MARKER -1
-#define VERBOSE true
+//#define VERBOSE true
 
 void vertex_set_clear(vertex_set* list) {
     list->count = 0;
@@ -152,7 +152,7 @@ void bfs_top_down(Graph graph, solution* sol) {
 
         vertex_set_clear(new_frontier);
 
-        if (frontier->count >= 32 * 4){
+        if (frontier->count >= 32 * 8){
             top_down_step_parallel(graph, visited, frontier, new_frontier, sol->distances);
         } else {
             top_down_step(graph, frontier, new_frontier, sol->distances);
@@ -360,7 +360,7 @@ void bfs_hybrid(Graph graph, solution* sol)
 #endif
         vertex_set_clear(new_frontier);
 
-        if (frontier->count > 1000) {
+        if ((double)frontier->count / graph->num_nodes > 0.03) {
             bottom_up_step_parallel(graph, visited, frontier, new_frontier, sol->distances);
         } else if (frontier->count >= 32 * 4){
             top_down_step_parallel(graph, visited, frontier, new_frontier, sol->distances);
