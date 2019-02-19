@@ -20,12 +20,6 @@ struct vertex_set {
   int *vertices;
 };
 
-struct vertex_set_complex {
-    int count;
-    int max_vertices;
-    std::set<int> vertices;
-};
-
 
 void bfs_top_down(Graph graph, solution* sol);
 void bfs_bottom_up(Graph graph, solution* sol);
