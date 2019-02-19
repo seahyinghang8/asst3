@@ -72,7 +72,7 @@ void top_down_step_parallel(
     // obtain the distance for the current frontier
     int new_frontier_distance = distances[frontier->vertices[0]] + 1;
 
-    #pragma omp parallel for schedule(dynamic, 32)
+    #pragma omp parallel for schedule(static, 64)
     for (int i=0; i<frontier->count; i++) {
 
         int node = frontier->vertices[i];
@@ -152,7 +152,7 @@ void bfs_top_down(Graph graph, solution* sol) {
 
         vertex_set_clear(new_frontier);
 
-        if (frontier->count >= 32 * 8){
+        if (frontier->count >= 32 * 32){
             top_down_step_parallel(graph, visited, frontier, new_frontier, sol->distances);
         } else {
             top_down_step(graph, frontier, new_frontier, sol->distances);
@@ -362,7 +362,7 @@ void bfs_hybrid(Graph graph, solution* sol)
 
         if ((double)frontier->count / graph->num_nodes > 0.03) {
             bottom_up_step_parallel(graph, visited, frontier, new_frontier, sol->distances);
-        } else if (frontier->count >= 32 * 4){
+        } else if (frontier->count >= 32 * 32){
             top_down_step_parallel(graph, visited, frontier, new_frontier, sol->distances);
         } else {
             top_down_step(graph, frontier, new_frontier, sol->distances);
